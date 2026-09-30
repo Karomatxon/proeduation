@@ -1,0 +1,3765 @@
+<!DOCTYPE html>
+<html lang="uz">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<title>ProEdu — Education Management System</title>
+
+<style>
+
+/* =========================
+   GLOBAL
+========================= */
+
+*{
+    margin:0;
+    padding:0;
+    box-sizing:border-box;
+    font-family:Inter,Arial,sans-serif;
+}
+
+:root{
+    --primary:#6554df;
+    --primary2:#8272ee;
+    --bg:#f5f6fb;
+    --card:#ffffff;
+    --text:#202235;
+    --muted:#8d91a3;
+    --border:#e7e8ef;
+    --green:#25a66a;
+    --red:#e75c70;
+    --orange:#e8993d;
+    --blue:#3986df;
+}
+
+body{
+    background:var(--bg);
+    color:var(--text);
+}
+
+
+/* =========================
+   SIDEBAR
+========================= */
+
+.sidebar{
+    position:fixed;
+    left:0;
+    top:0;
+    bottom:0;
+
+    width:255px;
+
+    background:white;
+    border-right:1px solid var(--border);
+
+    padding:22px 15px;
+
+    z-index:100;
+
+    overflow-y:auto;
+}
+
+.logo{
+    display:flex;
+    align-items:center;
+    gap:12px;
+
+    padding:5px 10px 28px;
+}
+
+.logo-icon{
+    width:44px;
+    height:44px;
+
+    border-radius:14px;
+
+    display:grid;
+    place-items:center;
+
+    background:linear-gradient(
+        135deg,
+        #5542d3,
+        #8c7cf5
+    );
+
+    color:white;
+
+    font-weight:900;
+    font-size:21px;
+
+    box-shadow:0 10px 25px #6251df40;
+}
+
+.logo h2{
+    font-size:19px;
+}
+
+.logo small{
+    color:#999cab;
+    font-size:9px;
+}
+
+.menu-title{
+    color:#a1a4b0;
+    font-size:8px;
+    font-weight:800;
+    letter-spacing:1.5px;
+
+    padding:0 12px 9px;
+}
+
+.nav{
+    display:flex;
+    flex-direction:column;
+    gap:3px;
+}
+
+.nav button{
+    border:none;
+    background:transparent;
+
+    padding:11px 12px;
+
+    border-radius:11px;
+
+    display:flex;
+    align-items:center;
+    gap:12px;
+
+    text-align:left;
+
+    color:#707485;
+
+    font-size:10px;
+
+    cursor:pointer;
+
+    transition:.2s;
+}
+
+.nav button:hover,
+.nav button.active{
+    background:#eeeaff;
+    color:#5d4bd7;
+    font-weight:700;
+}
+
+.nav-icon{
+    width:27px;
+    text-align:center;
+    font-size:16px;
+}
+
+.author-box{
+    position:absolute;
+    left:15px;
+    right:15px;
+    bottom:18px;
+
+    border:1px solid #e2ddff;
+    background:#faf9ff;
+
+    border-radius:13px;
+
+    padding:11px;
+
+    display:flex;
+    gap:9px;
+    align-items:center;
+}
+
+.author-avatar{
+    width:37px;
+    height:37px;
+
+    border-radius:11px;
+
+    background:#6554df;
+    color:white;
+
+    display:grid;
+    place-items:center;
+
+    font-size:9px;
+    font-weight:800;
+}
+
+.author-box small{
+    display:block;
+    color:#9699a8;
+    font-size:7px;
+}
+
+.author-box b{
+    display:block;
+    font-size:9px;
+    margin-top:3px;
+}
+
+
+/* =========================
+   MAIN
+========================= */
+
+.main{
+    margin-left:255px;
+    padding:24px 35px 50px;
+}
+
+
+/* TOPBAR */
+
+.topbar{
+    display:flex;
+    justify-content:space-between;
+    align-items:center;
+
+    margin-bottom:24px;
+}
+
+.topbar small{
+    color:var(--primary);
+    font-size:8px;
+    font-weight:800;
+    letter-spacing:1.4px;
+}
+
+.topbar h1{
+    margin-top:5px;
+    font-size:24px;
+}
+
+.top-actions{
+    display:flex;
+    align-items:center;
+    gap:9px;
+}
+
+.icon-btn,
+.lang-btn{
+    height:40px;
+
+    border:1px solid var(--border);
+
+    background:white;
+
+    border-radius:10px;
+
+    padding:0 12px;
+
+    cursor:pointer;
+}
+
+.profile{
+    display:flex;
+    align-items:center;
+    gap:8px;
+
+    background:white;
+
+    border:1px solid var(--border);
+
+    border-radius:11px;
+
+    padding:4px 10px 4px 4px;
+}
+
+.profile-avatar{
+    width:34px;
+    height:34px;
+
+    border-radius:10px;
+
+    background:#6554df;
+
+    color:white;
+
+    display:grid;
+    place-items:center;
+
+    font-size:9px;
+    font-weight:800;
+}
+
+.profile b{
+    display:block;
+    font-size:9px;
+}
+
+.profile small{
+    display:block;
+    color:#999cab;
+    font-size:7px;
+}
+
+
+/* =========================
+   SECTIONS
+========================= */
+
+.page{
+    display:none;
+}
+
+.page.active{
+    display:block;
+}
+
+
+/* =========================
+   HERO
+========================= */
+
+.hero{
+    min-height:280px;
+
+    border-radius:24px;
+
+    padding:38px 42px;
+
+    background:
+        linear-gradient(
+            115deg,
+            #4f3ad0,
+            #8474f3
+        );
+
+    color:white;
+
+    position:relative;
+    overflow:hidden;
+
+    display:flex;
+    align-items:center;
+    justify-content:space-between;
+
+    box-shadow:
+        0 20px 45px #5d4bd82d;
+}
+
+.hero-content{
+    max-width:600px;
+    position:relative;
+    z-index:2;
+}
+
+.hero-content span{
+    font-size:8px;
+    letter-spacing:2px;
+    opacity:.8;
+}
+
+.hero h2{
+    font-size:36px;
+    line-height:1.1;
+    margin:13px 0;
+}
+
+.hero h2 strong{
+    color:#dedaff;
+}
+
+.hero p{
+    color:#e7e4ff;
+    font-size:11px;
+    line-height:1.7;
+    max-width:560px;
+}
+
+.hero button{
+    margin-top:20px;
+
+    border:none;
+
+    padding:12px 18px;
+
+    border-radius:9px;
+
+    background:white;
+
+    color:#5e4cd9;
+
+    font-weight:800;
+
+    cursor:pointer;
+}
+
+.hero-art{
+    width:320px;
+    height:210px;
+    position:relative;
+}
+
+.hero-circle{
+    position:absolute;
+
+    border:1px solid #ffffff30;
+
+    border-radius:50%;
+}
+
+.hero-circle.one{
+    width:220px;
+    height:220px;
+}
+
+.hero-circle.two{
+    width:155px;
+    height:155px;
+    left:32px;
+    top:32px;
+}
+
+.laptop{
+    position:absolute;
+
+    left:80px;
+    top:45px;
+
+    width:170px;
+
+    background:white;
+
+    color:#25263a;
+
+    padding:13px;
+
+    border-radius:14px;
+
+    box-shadow:0 20px 40px #21156c40;
+}
+
+.laptop-top{
+    display:flex;
+    justify-content:space-between;
+
+    font-size:8px;
+}
+
+.chart{
+    height:65px;
+
+    display:flex;
+    align-items:end;
+
+    gap:7px;
+
+    margin-top:13px;
+}
+
+.chart i{
+    width:18px;
+
+    background:#6958e4;
+
+    border-radius:5px 5px 2px 2px;
+}
+
+.chart i:nth-child(1){height:25%}
+.chart i:nth-child(2){height:40%}
+.chart i:nth-child(3){height:58%}
+.chart i:nth-child(4){height:45%}
+.chart i:nth-child(5){height:78%}
+.chart i:nth-child(6){height:94%}
+
+
+/* =========================
+   CARDS
+========================= */
+
+.section-title{
+    display:flex;
+    justify-content:space-between;
+    align-items:center;
+
+    margin:27px 0 13px;
+}
+
+.section-title h2{
+    font-size:17px;
+}
+
+.section-title p{
+    color:var(--muted);
+    font-size:9px;
+    margin-top:4px;
+}
+
+.stats{
+    display:grid;
+    grid-template-columns:repeat(4,1fr);
+    gap:14px;
+}
+
+.card{
+    background:white;
+    border:1px solid var(--border);
+    border-radius:15px;
+    padding:18px;
+}
+
+.stat{
+    display:flex;
+    align-items:center;
+    gap:13px;
+}
+
+.stat-icon{
+    width:43px;
+    height:43px;
+
+    border-radius:12px;
+
+    display:grid;
+    place-items:center;
+
+    font-size:18px;
+}
+
+.stat-icon.purple{background:#eeeaff}
+.stat-icon.blue{background:#e3efff}
+.stat-icon.green{background:#e2f8eb}
+.stat-icon.orange{background:#fff0df}
+
+.stat small{
+    color:#9296a5;
+    font-size:8px;
+}
+
+.stat h3{
+    margin:4px 0;
+    font-size:22px;
+}
+
+.stat span{
+    color:var(--green);
+    font-size:8px;
+}
+
+
+/* =========================
+   TWO COLUMNS
+========================= */
+
+.two{
+    display:grid;
+    grid-template-columns:1.3fr 1fr;
+    gap:15px;
+    margin-top:25px;
+}
+
+.panel-title{
+    display:flex;
+    justify-content:space-between;
+    align-items:center;
+
+    margin-bottom:12px;
+}
+
+.panel-title h3{
+    font-size:14px;
+}
+
+.panel-title small{
+    color:var(--muted);
+    font-size:8px;
+}
+
+
+/* =========================
+   PEOPLE
+========================= */
+
+.person{
+    display:flex;
+    align-items:center;
+    gap:10px;
+
+    padding:10px 0;
+
+    border-bottom:1px solid #f0f1f4;
+}
+
+.person:last-child{
+    border-bottom:none;
+}
+
+.avatar{
+    width:37px;
+    height:37px;
+
+    border-radius:11px;
+
+    display:grid;
+    place-items:center;
+
+    font-size:9px;
+    font-weight:800;
+}
+
+.avatar.purple{background:#ebe7ff;color:#5f4dde}
+.avatar.blue{background:#e3efff;color:#3181d9}
+.avatar.green{background:#e1f7ea;color:#279963}
+.avatar.orange{background:#fff0df;color:#dc8c31}
+
+.person b{
+    display:block;
+    font-size:9px;
+}
+
+.person small{
+    display:block;
+    color:#9296a6;
+    font-size:7px;
+    margin-top:3px;
+}
+
+.status{
+    margin-left:auto;
+
+    padding:5px 8px;
+
+    border-radius:20px;
+
+    font-size:7px;
+}
+
+.present{
+    background:#e3f8ec;
+    color:#279862;
+}
+
+.absent{
+    background:#ffe7eb;
+    color:#d95168;
+}
+
+.late{
+    background:#fff0dc;
+    color:#d78a30;
+}
+
+
+/* =========================
+   MODULE CARDS
+========================= */
+
+.modules{
+    display:grid;
+    grid-template-columns:repeat(4,1fr);
+    gap:14px;
+    margin-top:25px;
+}
+
+.module{
+    background:white;
+    border:1px solid var(--border);
+    border-radius:16px;
+    padding:18px;
+
+    transition:.2s;
+}
+
+.module:hover{
+    transform:translateY(-4px);
+    box-shadow:0 15px 35px #2022350c;
+}
+
+.module-icon{
+    width:48px;
+    height:48px;
+
+    border-radius:13px;
+
+    display:grid;
+    place-items:center;
+
+    font-size:22px;
+
+    margin-bottom:15px;
+}
+
+.module:nth-child(1) .module-icon{
+    background:#ebe7ff;
+}
+
+.module:nth-child(2) .module-icon{
+    background:#e3f1ff;
+}
+
+.module:nth-child(3) .module-icon{
+    background:#e4f8ed;
+}
+
+.module:nth-child(4) .module-icon{
+    background:#fff0df;
+}
+
+.module h3{
+    font-size:13px;
+    margin-bottom:7px;
+}
+
+.module p{
+    color:#9296a6;
+    font-size:8px;
+    line-height:1.6;
+}
+
+.module button{
+    margin-top:15px;
+
+    border:none;
+
+    background:#f0edff;
+
+    color:#6251dd;
+
+    padding:8px 10px;
+
+    border-radius:8px;
+
+    font-size:8px;
+    font-weight:700;
+
+    cursor:pointer;
+}
+
+
+/* =========================
+   PAGE HEADER
+========================= */
+
+.page-header{
+    padding:25px;
+
+    border-radius:17px;
+
+    background:
+        linear-gradient(
+            120deg,
+            #f0edff,
+            #ffffff
+        );
+
+    border:1px solid #e2ddff;
+
+    display:flex;
+    justify-content:space-between;
+    align-items:center;
+
+    margin-bottom:17px;
+}
+
+.page-header span{
+    color:var(--primary);
+    font-size:8px;
+    font-weight:800;
+    letter-spacing:1.5px;
+}
+
+.page-header h2{
+    margin:7px 0;
+
+    font-size:23px;
+}
+
+.page-header p{
+    color:var(--muted);
+    font-size:9px;
+}
+
+.primary-btn{
+    background:var(--primary);
+    color:white;
+
+    border:none;
+
+    padding:11px 15px;
+
+    border-radius:9px;
+
+    font-size:9px;
+
+    cursor:pointer;
+}
+
+
+/* =========================
+   PROGRAMMING
+========================= */
+
+.course-grid{
+    display:grid;
+    grid-template-columns:repeat(3,1fr);
+    gap:15px;
+}
+
+.course{
+    background:white;
+
+    border:1px solid var(--border);
+
+    border-radius:15px;
+
+    overflow:hidden;
+}
+
+.course-cover{
+    height:120px;
+
+    display:grid;
+    place-items:center;
+
+    font-size:45px;
+    font-weight:900;
+}
+
+.course-cover.html{
+    background:#ffe7df;
+    color:#e45d3b;
+}
+
+.course-cover.js{
+    background:#fff4cc;
+    color:#d9a500;
+}
+
+.course-cover.python{
+    background:#e4f0ff;
+    color:#347fd2;
+}
+
+.course-body{
+    padding:16px;
+}
+
+.course-body small{
+    color:var(--primary);
+    font-size:7px;
+    font-weight:800;
+}
+
+.course-body h3{
+    font-size:14px;
+    margin:7px 0;
+}
+
+.course-body p{
+    color:var(--muted);
+    font-size:8px;
+    line-height:1.5;
+}
+
+.course-meta{
+    display:flex;
+    justify-content:space-between;
+
+    margin-top:13px;
+
+    color:#777b8c;
+    font-size:8px;
+}
+
+.code-editor{
+    margin-top:20px;
+
+    background:#171827;
+
+    border-radius:15px;
+
+    overflow:hidden;
+
+    color:#ddd;
+
+    box-shadow:0 15px 35px #14152320;
+}
+
+.editor-header{
+    background:#222337;
+
+    padding:11px 15px;
+
+    display:flex;
+    justify-content:space-between;
+
+    font-size:8px;
+}
+
+.editor-body{
+    padding:18px;
+
+    min-height:170px;
+
+    font-family:monospace;
+
+    font-size:11px;
+
+    line-height:1.7;
+}
+
+.code-purple{color:#a997ff}
+.code-green{color:#69d39b}
+.code-orange{color:#f0b36a}
+
+
+/* =========================
+   LIBRARY
+========================= */
+
+.library-tools{
+    display:flex;
+    gap:10px;
+    margin-bottom:17px;
+}
+
+.search{
+    flex:1;
+
+    border:1px solid var(--border);
+
+    background:white;
+
+    border-radius:9px;
+
+    padding:11px 13px;
+
+    outline:none;
+
+    font-size:9px;
+}
+
+.filter{
+    border:1px solid var(--border);
+
+    background:white;
+
+    border-radius:9px;
+
+    padding:0 14px;
+
+    font-size:9px;
+}
+
+.books{
+    display:grid;
+    grid-template-columns:repeat(4,1fr);
+    gap:14px;
+}
+
+.book{
+    background:white;
+    border:1px solid var(--border);
+    border-radius:14px;
+    padding:13px;
+}
+
+.book-cover{
+    height:150px;
+
+    border-radius:10px;
+
+    display:grid;
+    place-items:center;
+
+    font-size:42px;
+
+    margin-bottom:12px;
+}
+
+.book:nth-child(1) .book-cover{
+    background:#e7e2ff;
+}
+
+.book:nth-child(2) .book-cover{
+    background:#dff1ff;
+}
+
+.book:nth-child(3) .book-cover{
+    background:#e0f7e9;
+}
+
+.book:nth-child(4) .book-cover{
+    background:#fff0dc;
+}
+
+.book h3{
+    font-size:11px;
+}
+
+.book p{
+    color:var(--muted);
+    font-size:8px;
+    margin-top:5px;
+}
+
+.book button{
+    width:100%;
+
+    margin-top:12px;
+
+    padding:8px;
+
+    border:none;
+
+    background:#f0edff;
+
+    color:#6251dd;
+
+    border-radius:8px;
+
+    font-size:8px;
+}
+
+
+/* =========================
+   TEACHER DASHBOARD
+========================= */
+
+.teacher-stats{
+    display:grid;
+    grid-template-columns:repeat(4,1fr);
+    gap:14px;
+    margin-bottom:18px;
+}
+
+.chart-box{
+    height:250px;
+
+    display:flex;
+    align-items:end;
+
+    gap:16px;
+
+    padding:20px 10px 5px;
+}
+
+.bar{
+    flex:1;
+
+    background:
+        linear-gradient(
+            #8171ed,
+            #5e4ddd
+        );
+
+    border-radius:7px 7px 2px 2px;
+
+    position:relative;
+}
+
+.bar span{
+    position:absolute;
+
+    bottom:-20px;
+    left:50%;
+
+    transform:translateX(-50%);
+
+    font-size:7px;
+    color:#8e92a1;
+}
+
+
+/* =========================
+   ATTENDANCE
+========================= */
+
+.attendance-summary{
+    display:grid;
+    grid-template-columns:repeat(3,1fr);
+    gap:14px;
+
+    margin-bottom:18px;
+}
+
+.attendance-number{
+    font-size:28px;
+    font-weight:800;
+
+    margin-top:5px;
+}
+
+.attendance-table{
+    width:100%;
+
+    border-collapse:collapse;
+}
+
+.attendance-table th{
+    text-align:left;
+
+    color:#979baa;
+
+    font-size:8px;
+
+    padding:12px 8px;
+
+    border-bottom:1px solid var(--border);
+}
+
+.attendance-table td{
+    padding:12px 8px;
+
+    border-bottom:1px solid #f0f1f4;
+
+    font-size:9px;
+}
+
+.attendance-table button{
+    padding:6px 9px;
+
+    border-radius:7px;
+
+    border:none;
+
+    font-size:7px;
+
+    cursor:pointer;
+}
+
+.btn-present{
+    background:#e2f8eb;
+    color:#279962;
+}
+
+.btn-absent{
+    background:#ffe7eb;
+    color:#d95368;
+}
+
+.btn-late{
+    background:#fff0dc;
+    color:#d58a31;
+}
+
+
+/* =========================
+   SETTINGS
+========================= */
+
+.settings{
+    display:grid;
+    grid-template-columns:1fr 1fr;
+    gap:15px;
+}
+
+.setting-row{
+    display:flex;
+    align-items:center;
+    justify-content:space-between;
+
+    padding:15px 0;
+
+    border-bottom:1px solid #f0f1f4;
+}
+
+.setting-row:last-child{
+    border-bottom:none;
+}
+
+.setting-row b{
+    display:block;
+    font-size:10px;
+}
+
+.setting-row small{
+    display:block;
+    color:var(--muted);
+    font-size:8px;
+    margin-top:4px;
+}
+
+.switch{
+    position:relative;
+
+    width:40px;
+    height:22px;
+}
+
+.switch input{
+    display:none;
+}
+
+.switch span{
+    position:absolute;
+    inset:0;
+
+    background:#d6d8df;
+
+    border-radius:20px;
+}
+
+.switch span:before{
+    content:"";
+
+    position:absolute;
+
+    width:16px;
+    height:16px;
+
+    left:3px;
+    top:3px;
+
+    background:white;
+
+    border-radius:50%;
+
+    transition:.2s;
+}
+
+.switch input:checked + span{
+    background:var(--primary);
+}
+
+.switch input:checked + span:before{
+    transform:translateX(18px);
+}
+
+
+/* =========================
+   TOAST
+========================= */
+
+.toast{
+    position:fixed;
+
+    right:22px;
+    bottom:22px;
+
+    background:#202235;
+    color:white;
+
+    padding:11px 15px;
+
+    border-radius:9px;
+
+    font-size:9px;
+
+    opacity:0;
+
+    transform:translateY(60px);
+
+    transition:.25s;
+
+    z-index:999;
+}
+
+.toast.show{
+    opacity:1;
+    transform:translateY(0);
+}
+
+
+/* =========================
+   FOOTER
+========================= */
+
+footer{
+    text-align:center;
+
+    margin-top:35px;
+
+    color:#9a9dab;
+
+    font-size:8px;
+}
+
+
+/* =========================
+   DARK MODE
+========================= */
+
+body.dark{
+    --bg:#11121d;
+    --card:#1c1d2b;
+    --text:#f3f3f8;
+    --muted:#999cad;
+    --border:#303142;
+}
+
+body.dark .sidebar,
+body.dark .card,
+body.dark .panel,
+body.dark .module,
+body.dark .course,
+body.dark .book,
+body.dark .profile,
+body.dark .icon-btn,
+body.dark .lang-btn,
+body.dark .search,
+body.dark .filter{
+    background:#1c1d2b;
+}
+
+body.dark .nav button{
+    color:#aaaebe;
+}
+
+body.dark .nav button.active{
+    background:#2b2850;
+    color:#b6adff;
+}
+
+body.dark .page-header{
+    background:#24233b;
+}
+
+body.dark .author-box{
+    background:#202036;
+}
+
+body.dark .author-box b{
+    color:white;
+}
+
+
+/* =========================
+   RESPONSIVE
+========================= */
+
+@media(max-width:1200px){
+
+    .stats,
+    .teacher-stats{
+        grid-template-columns:repeat(2,1fr);
+    }
+
+    .modules{
+        grid-template-columns:repeat(2,1fr);
+    }
+
+    .books{
+        grid-template-columns:repeat(2,1fr);
+    }
+
+}
+
+@media(max-width:900px){
+
+    .sidebar{
+        width:70px;
+        padding:18px 8px;
+    }
+
+    .logo h2,
+    .logo small,
+    .menu-title,
+    .nav button span,
+    .author-box{
+        display:none;
+    }
+
+    .nav button{
+        justify-content:center;
+    }
+
+    .main{
+        margin-left:70px;
+        padding:20px;
+    }
+
+    .two,
+    .settings{
+        grid-template-columns:1fr;
+    }
+
+    .course-grid{
+        grid-template-columns:repeat(2,1fr);
+    }
+
+}
+
+@media(max-width:600px){
+
+    .topbar h1{
+        font-size:18px;
+    }
+
+    .profile{
+        display:none;
+    }
+
+    .hero{
+        padding:28px;
+    }
+
+    .hero h2{
+        font-size:27px;
+    }
+
+    .hero-art{
+        display:none;
+    }
+
+    .stats,
+    .modules,
+    .course-grid,
+    .books,
+    .attendance-summary{
+        grid-template-columns:1fr;
+    }
+
+    .page-header{
+        display:block;
+    }
+
+    .page-header button{
+        margin-top:14px;
+    }
+
+}
+
+</style>
+</head>
+
+
+<body>
+
+
+<!-- =====================================================
+     SIDEBAR
+===================================================== -->
+
+<aside class="sidebar">
+
+    <div class="logo">
+
+        <div class="logo-icon">
+            P
+        </div>
+
+        <div>
+            <h2>ProEdu</h2>
+            <small>Education Management</small>
+        </div>
+
+    </div>
+
+
+    <div class="menu-title">
+        MAIN MENU
+    </div>
+
+
+    <nav class="nav">
+
+        <button class="active" data-page="home">
+            <span class="nav-icon">🏠</span>
+            <span data-i18n="home">Bosh sahifa</span>
+        </button>
+
+
+        <button data-page="programming">
+            <span class="nav-icon">💻</span>
+            <span data-i18n="programming">Dasturlash kurslari</span>
+        </button>
+
+
+        <button data-page="library">
+            <span class="nav-icon">📚</span>
+            <span data-i18n="library">Raqamli kutubxona</span>
+        </button>
+
+
+        <button data-page="teacher">
+            <span class="nav-icon">👨‍🏫</span>
+            <span data-i18n="teacher">O‘qituvchi paneli</span>
+        </button>
+
+
+        <button data-page="attendance">
+            <span class="nav-icon">🧑‍🎓</span>
+            <span data-i18n="attendance">Davomat tizimi</span>
+        </button>
+
+
+        <button data-page="settings">
+            <span class="nav-icon">⚙️</span>
+            <span data-i18n="settings">Sozlamalar</span>
+        </button>
+
+    </nav>
+
+
+    <div class="author-box">
+
+        <div class="author-avatar">
+            AK
+        </div>
+
+        <div>
+            <small>Muallif</small>
+            <b>Abduraximova Karomatxon</b>
+        </div>
+
+    </div>
+
+</aside>
+
+
+
+<!-- =====================================================
+     MAIN
+===================================================== -->
+
+<main class="main">
+
+
+<header class="topbar">
+
+    <div>
+
+        <small>PROEDU PLATFORM</small>
+
+        <h1 id="pageTitle">
+            Ta’lim boshqaruv markazi
+        </h1>
+
+    </div>
+
+
+    <div class="top-actions">
+
+        <button
+            class="icon-btn"
+            id="soundBtn"
+        >
+            🔊
+        </button>
+
+
+        <button
+            class="lang-btn"
+            id="langBtn"
+        >
+            UZ ▾
+        </button>
+
+
+        <button
+            class="icon-btn"
+            onclick="notifyUser('3 ta yangi bildirishnoma mavjud')"
+        >
+            🔔
+        </button>
+
+
+        <div class="profile">
+
+            <div class="profile-avatar">
+                AK
+            </div>
+
+            <div>
+                <b>Abduraximova</b>
+                <small>Karomatxon</small>
+            </div>
+
+        </div>
+
+    </div>
+
+</header>
+
+
+
+<!-- =====================================================
+     HOME
+===================================================== -->
+
+<section
+    class="page active"
+    id="home"
+>
+
+    <div class="hero">
+
+        <div class="hero-content">
+
+            <span>PROEDU • EDUCATION PLATFORM</span>
+
+            <h2>
+                Ta’limni
+                <strong>raqamli</strong>
+                boshqaring.
+            </h2>
+
+            <p>
+                Dasturlash kurslari, raqamli kutubxona,
+                o‘qituvchi paneli va o‘quvchilar
+                davomatini bitta platformada boshqaring.
+            </p>
+
+            <button
+                onclick="notifyUser('ProEdu tizimi ishga tushdi')"
+            >
+                Platformani boshlash →
+            </button>
+
+        </div>
+
+
+        <div class="hero-art">
+
+            <div class="hero-circle one"></div>
+            <div class="hero-circle two"></div>
+
+            <div class="laptop">
+
+                <div class="laptop-top">
+
+                    <b>ProEdu Analytics</b>
+
+                    <span>● LIVE</span>
+
+                </div>
+
+
+                <div class="chart">
+
+                    <i></i>
+                    <i></i>
+                    <i></i>
+                    <i></i>
+                    <i></i>
+                    <i></i>
+
+                </div>
+
+                <small>O‘zlashtirish</small>
+
+                <h3>94%</h3>
+
+            </div>
+
+        </div>
+
+    </div>
+
+
+
+    <div class="section-title">
+
+        <div>
+
+            <h2>
+                Umumiy ko‘rsatkichlar
+            </h2>
+
+            <p>
+                ProEdu platformasining joriy statistikasi
+            </p>
+
+        </div>
+
+    </div>
+
+
+    <div class="stats">
+
+        <div class="card stat">
+
+            <div class="stat-icon purple">
+                💻
+            </div>
+
+            <div>
+
+                <small>Dasturlash kurslari</small>
+
+                <h3>18</h3>
+
+                <span>+4 yangi</span>
+
+            </div>
+
+        </div>
+
+
+        <div class="card stat">
+
+            <div class="stat-icon blue">
+                📚
+            </div>
+
+            <div>
+
+                <small>Elektron kitoblar</small>
+
+                <h3>1,248</h3>
+
+                <span>+86 bu oy</span>
+
+            </div>
+
+        </div>
+
+
+        <div class="card stat">
+
+            <div class="stat-icon green">
+                👨‍🎓
+            </div>
+
+            <div>
+
+                <small>O‘quvchilar</small>
+
+                <h3>128</h3>
+
+                <span>116 faol</span>
+
+            </div>
+
+        </div>
+
+
+        <div class="card stat">
+
+            <div class="stat-icon orange">
+                🧑‍🎓
+            </div>
+
+            <div>
+
+                <small>Bugungi davomat</small>
+
+                <h3>94%</h3>
+
+                <span>+3.2%</span>
+
+            </div>
+
+        </div>
+
+    </div>
+
+
+
+    <div class="two">
+
+        <div class="card">
+
+            <div class="panel-title">
+
+                <div>
+
+                    <h3>So‘nggi o‘quvchilar</h3>
+
+                    <small>
+                        Platformadagi faol o‘quvchilar
+                    </small>
+
+                </div>
+
+            </div>
+
+
+            <div class="person">
+
+                <div class="avatar purple">
+                    MD
+                </div>
+
+                <div>
+                    <b>Madina Davronova</b>
+                    <small>9-A • Matematika</small>
+                </div>
+
+                <span class="status present">
+                    Faol
+                </span>
+
+            </div>
+
+
+            <div class="person">
+
+                <div class="avatar blue">
+                    SA
+                </div>
+
+                <div>
+                    <b>Sardor Abduqodirov</b>
+                    <small>10-B • Informatika</small>
+                </div>
+
+                <span class="status present">
+                    Faol
+                </span>
+
+            </div>
+
+
+            <div class="person">
+
+                <div class="avatar green">
+                    ZN
+                </div>
+
+                <div>
+                    <b>Zuhra Nosirova</b>
+                    <small>8-B • Ingliz tili</small>
+                </div>
+
+                <span class="status late">
+                    Kechikdi
+                </span>
+
+            </div>
+
+
+            <div class="person">
+
+                <div class="avatar orange">
+                    JM
+                </div>
+
+                <div>
+                    <b>Javohir Mirzaev</b>
+                    <small>11-A • Dasturlash</small>
+                </div>
+
+                <span class="status present">
+                    Faol
+                </span>
+
+            </div>
+
+        </div>
+
+
+
+        <div class="card">
+
+            <div class="panel-title">
+
+                <div>
+
+                    <h3>Bugungi davomat</h3>
+
+                    <small>
+                        30-sentabr, 2026
+                    </small>
+
+                </div>
+
+            </div>
+
+
+            <div class="person">
+
+                <div class="avatar green">
+                    ✓
+                </div>
+
+                <div>
+                    <b>Kelganlar</b>
+                    <small>O‘quv mashg‘ulotida</small>
+                </div>
+
+                <strong style="margin-left:auto">
+                    116
+                </strong>
+
+            </div>
+
+
+            <div class="person">
+
+                <div class="avatar orange">
+                    !
+                </div>
+
+                <div>
+                    <b>Kechikkanlar</b>
+                    <small>Bugungi mashg‘ulot</small>
+                </div>
+
+                <strong style="margin-left:auto">
+                    7
+                </strong>
+
+            </div>
+
+
+            <div class="person">
+
+                <div class="avatar" style="background:#ffe7eb;color:#d95368">
+                    ×
+                </div>
+
+                <div>
+                    <b>Kelmaganlar</b>
+                    <small>Davomat qaydi</small>
+                </div>
+
+                <strong style="margin-left:auto">
+                    5
+                </strong>
+
+            </div>
+
+        </div>
+
+    </div>
+
+
+
+    <div class="section-title">
+
+        <div>
+
+            <h2>
+                ProEdu modullari
+            </h2>
+
+            <p>
+                Barcha ta’lim jarayonlari bir joyda
+            </p>
+
+        </div>
+
+    </div>
+
+
+    <div class="modules">
+
+
+        <div class="module">
+
+            <div class="module-icon">
+                💻
+            </div>
+
+            <h3>
+                Online Programming
+            </h3>
+
+            <p>
+                HTML, CSS, JavaScript, Python
+                va boshqa dasturlash kurslarini
+                o‘rganing.
+            </p>
+
+            <button
+                onclick="openPage('programming')"
+            >
+                Kurslarni ochish →
+            </button>
+
+        </div>
+
+
+        <div class="module">
+
+            <div class="module-icon">
+                📚
+            </div>
+
+            <h3>
+                Digital Library
+            </h3>
+
+            <p>
+                Elektron kitoblar, o‘quv materiallari
+                va ilmiy resurslarni izlang.
+            </p>
+
+            <button
+                onclick="openPage('library')"
+            >
+                Kutubxonani ochish →
+            </button>
+
+        </div>
+
+
+        <div class="module">
+
+            <div class="module-icon">
+                👨‍🏫
+            </div>
+
+            <h3>
+                Teacher Dashboard
+            </h3>
+
+            <p>
+                O‘quvchilar, topshiriqlar, baholar
+                va statistikalarni boshqaring.
+            </p>
+
+            <button
+                onclick="openPage('teacher')"
+            >
+                Dashboardni ochish →
+            </button>
+
+        </div>
+
+
+        <div class="module">
+
+            <div class="module-icon">
+                🧑‍🎓
+            </div>
+
+            <h3>
+                Student Attendance
+            </h3>
+
+            <p>
+                O‘quvchilarning kunlik davomatini
+                tez va qulay boshqaring.
+            </p>
+
+            <button
+                onclick="openPage('attendance')"
+            >
+                Davomatni ochish →
+            </button>
+
+        </div>
+
+    </div>
+
+</section>
+
+
+
+<!-- =====================================================
+     PROGRAMMING COURSES
+===================================================== -->
+
+<section
+    class="page"
+    id="programming"
+>
+
+    <div class="page-header">
+
+        <div>
+
+            <span>ONLINE PROGRAMMING COURSE PLATFORM</span>
+
+            <h2>
+                Dasturlash kurslari
+            </h2>
+
+            <p>
+                Zamonaviy dasturlash tillarini
+                online o‘rganing.
+            </p>
+
+        </div>
+
+        <button
+            class="primary-btn"
+            onclick="notifyUser('Yangi kurs yaratish oynasi')"
+        >
+            + Yangi kurs
+        </button>
+
+    </div>
+
+
+    <div class="course-grid">
+
+
+        <div class="course">
+
+            <div class="course-cover html">
+                HTML
+            </div>
+
+            <div class="course-body">
+
+                <small>WEB DEVELOPMENT</small>
+
+                <h3>
+                    HTML & CSS
+                </h3>
+
+                <p>
+                    Web sahifalarni noldan
+                    yaratishni o‘rganing.
+                </p>
+
+                <div class="course-meta">
+                    <span>👨‍🎓 42 o‘quvchi</span>
+                    <b>86%</b>
+                </div>
+
+            </div>
+
+        </div>
+
+
+        <div class="course">
+
+            <div class="course-cover js">
+                JS
+            </div>
+
+            <div class="course-body">
+
+                <small>PROGRAMMING</small>
+
+                <h3>
+                    JavaScript
+                </h3>
+
+                <p>
+                    Interaktiv web ilovalar
+                    yaratishni o‘rganing.
+                </p>
+
+                <div class="course-meta">
+                    <span>👨‍🎓 36 o‘quvchi</span>
+                    <b>74%</b>
+                </div>
+
+            </div>
+
+        </div>
+
+
+        <div class="course">
+
+            <div class="course-cover python">
+                PY
+            </div>
+
+            <div class="course-body">
+
+                <small>PYTHON DEVELOPMENT</small>
+
+                <h3>
+                    Python
+                </h3>
+
+                <p>
+                    Python asoslari va
+                    algoritmlarni o‘rganing.
+                </p>
+
+                <div class="course-meta">
+                    <span>👨‍🎓 29 o‘quvchi</span>
+                    <b>68%</b>
+                </div>
+
+            </div>
+
+        </div>
+
+    </div>
+
+
+    <div class="card" style="margin-top:18px">
+
+        <div class="panel-title">
+
+            <div>
+                <h3>
+                    Online Code Editor
+                </h3>
+
+                <small>
+                    JavaScript playground
+                </small>
+            </div>
+
+            <button
+                class="primary-btn"
+                onclick="runCode()"
+            >
+                ▶ Run
+            </button>
+
+        </div>
+
+
+        <div class="code-editor">
+
+            <div class="editor-header">
+
+                <span>
+                    script.js
+                </span>
+
+                <span>
+                    JavaScript
+                </span>
+
+            </div>
+
+            <div
+                class="editor-body"
+                contenteditable="true"
+                id="codeEditor"
+            >
+
+<span class="code-purple">const</span>
+<span class="code-green">student</span> =
+<span class="code-orange">"ProEdu"</span>;
+
+console.log(
+    <span class="code-green">student</span>
+);
+
+            </div>
+
+        </div>
+
+    </div>
+
+</section>
+
+
+
+<!-- =====================================================
+     DIGITAL LIBRARY
+===================================================== -->
+
+<section
+    class="page"
+    id="library"
+>
+
+    <div class="page-header">
+
+        <div>
+
+            <span>DIGITAL LIBRARY</span>
+
+            <h2>
+                Raqamli kutubxona
+            </h2>
+
+            <p>
+                1,248 ta elektron kitob va
+                o‘quv materiallari.
+            </p>
+
+        </div>
+
+        <button
+            class="primary-btn"
+            onclick="notifyUser('Kitob yuklash oynasi')"
+        >
+            + Kitob qo‘shish
+        </button>
+
+    </div>
+
+
+    <div class="library-tools">
+
+        <input
+            class="search"
+            id="bookSearch"
+            placeholder="🔎 Kitob nomini qidiring..."
+        >
+
+        <select class="filter">
+
+            <option>
+                Barcha kategoriyalar
+            </option>
+
+            <option>
+                Dasturlash
+            </option>
+
+            <option>
+                Matematika
+            </option>
+
+            <option>
+                Adabiyot
+            </option>
+
+            <option>
+                Fan
+            </option>
+
+        </select>
+
+    </div>
+
+
+    <div
+        class="books"
+        id="books"
+    >
+
+
+        <div class="book">
+
+            <div class="book-cover">
+                💻
+            </div>
+
+            <h3>
+                Web Development
+            </h3>
+
+            <p>
+                HTML, CSS va JavaScript
+            </p>
+
+            <button
+                onclick="notifyUser('Kitob ochildi')"
+            >
+                📖 O‘qishni boshlash
+            </button>
+
+        </div>
+
+
+        <div class="book">
+
+            <div class="book-cover">
+                🐍
+            </div>
+
+            <h3>
+                Python Programming
+            </h3>
+
+            <p>
+                Python asoslari
+            </p>
+
+            <button
+                onclick="notifyUser('Kitob ochildi')"
+            >
+                📖 O‘qishni boshlash
+            </button>
+
+        </div>
+
+
+        <div class="book">
+
+            <div class="book-cover">
+                📐
+            </div>
+
+            <h3>
+                Algebra
+            </h3>
+
+            <p>
+                Algebra va geometriya
+            </p>
+
+            <button
+                onclick="notifyUser('Kitob ochildi')"
+            >
+                📖 O‘qishni boshlash
+            </button>
+
+        </div>
+
+
+        <div class="book">
+
+            <div class="book-cover">
+                🔬
+            </div>
+
+            <h3>
+                Natural Science
+            </h3>
+
+            <p>
+                Fizika, kimyo va biologiya
+            </p>
+
+            <button
+                onclick="notifyUser('Kitob ochildi')"
+            >
+                📖 O‘qishni boshlash
+            </button>
+
+        </div>
+
+    </div>
+
+</section>
+
+
+
+<!-- =====================================================
+     TEACHER DASHBOARD
+===================================================== -->
+
+<section
+    class="page"
+    id="teacher"
+>
+
+    <div class="page-header">
+
+        <div>
+
+            <span>TEACHER DASHBOARD</span>
+
+            <h2>
+                O‘qituvchi boshqaruv paneli
+            </h2>
+
+            <p>
+                Darslar, o‘quvchilar va natijalarni
+                nazorat qiling.
+            </p>
+
+        </div>
+
+        <button
+            class="primary-btn"
+            onclick="notifyUser('Yangi topshiriq yaratish')"
+        >
+            + Topshiriq yaratish
+        </button>
+
+    </div>
+
+
+    <div class="teacher-stats">
+
+
+        <div class="card stat">
+
+            <div class="stat-icon purple">
+                👨‍🎓
+            </div>
+
+            <div>
+
+                <small>O‘quvchilar</small>
+
+                <h3>128</h3>
+
+                <span>+12</span>
+
+            </div>
+
+        </div>
+
+
+        <div class="card stat">
+
+            <div class="stat-icon blue">
+                📚
+            </div>
+
+            <div>
+
+                <small>Faol darslar</small>
+
+                <h3>24</h3>
+
+                <span>+4</span>
+
+            </div>
+
+        </div>
+
+
+        <div class="card stat">
+
+            <div class="stat-icon orange">
+                📝
+            </div>
+
+            <div>
+
+                <small>Topshiriqlar</small>
+
+                <h3>18</h3>
+
+                <span>6 kutilmoqda</span>
+
+            </div>
+
+        </div>
+
+
+        <div class="card stat">
+
+            <div class="stat-icon green">
+                🏆
+            </div>
+
+            <div>
+
+                <small>O‘rtacha natija</small>
+
+                <h3>91%</h3>
+
+                <span>+6.4%</span>
+
+            </div>
+
+        </div>
+
+    </div>
+
+
+    <div class="card">
+
+        <div class="panel-title">
+
+            <div>
+
+                <h3>
+                    Haftalik o‘quv faolligi
+                </h3>
+
+                <small>
+                    O‘quvchilarning platformadagi faolligi
+                </small>
+
+            </div>
+
+        </div>
+
+
+        <div class="chart-box">
+
+            <div class="bar" style="height:45%">
+                <span>Dush</span>
+            </div>
+
+            <div class="bar" style="height:62%">
+                <span>Sesh</span>
+            </div>
+
+            <div class="bar" style="height:78%">
+                <span>Chor</span>
+            </div>
+
+            <div class="bar" style="height:58%">
+                <span>Pay</span>
+            </div>
+
+            <div class="bar" style="height:88%">
+                <span>Jum</span>
+            </div>
+
+            <div class="bar" style="height:68%">
+                <span>Shan</span>
+            </div>
+
+            <div class="bar" style="height:35%">
+                <span>Yak</span>
+            </div>
+
+        </div>
+
+    </div>
+
+</section>
+
+
+
+<!-- =====================================================
+     ATTENDANCE
+===================================================== -->
+
+<section
+    class="page"
+    id="attendance"
+>
+
+    <div class="page-header">
+
+        <div>
+
+            <span>STUDENT ATTENDANCE SYSTEM</span>
+
+            <h2>
+                O‘quvchilar davomat tizimi
+            </h2>
+
+            <p>
+                Bugungi davomatni boshqaring va
+                hisobotlarni kuzating.
+            </p>
+
+        </div>
+
+        <button
+            class="primary-btn"
+            onclick="markAllPresent()"
+        >
+            ✓ Barchani kelgan deb belgilash
+        </button>
+
+    </div>
+
+
+    <div class="attendance-summary">
+
+
+        <div class="card">
+
+            <small>
+                Kelganlar
+            </small>
+
+            <div
+                class="attendance-number"
+                style="color:#25a66a"
+                id="presentCount"
+            >
+                116
+            </div>
+
+        </div>
+
+
+        <div class="card">
+
+            <small>
+                Kechikkanlar
+            </small>
+
+            <div
+                class="attendance-number"
+                style="color:#e8993d"
+                id="lateCount"
+            >
+                7
+            </div>
+
+        </div>
+
+
+        <div class="card">
+
+            <small>
+                Kelmaganlar
+            </small>
+
+            <div
+                class="attendance-number"
+                style="color:#e75c70"
+                id="absentCount"
+            >
+                5
+            </div>
+
+        </div>
+
+    </div>
+
+
+    <div class="card">
+
+        <div class="panel-title">
+
+            <div>
+
+                <h3>
+                    Bugungi davomat
+                </h3>
+
+                <small>
+                    30-sentabr, 2026 • 9-A sinf
+                </small>
+
+            </div>
+
+        </div>
+
+
+        <table class="attendance-table">
+
+            <thead>
+
+                <tr>
+
+                    <th>
+                        O‘quvchi
+                    </th>
+
+                    <th>
+                        Sinf
+                    </th>
+
+                    <th>
+                        Holat
+                    </th>
+
+                    <th>
+                        Amal
+                    </th>
+
+                </tr>
+
+            </thead>
+
+
+            <tbody>
+
+
+                <tr>
+
+                    <td>
+                        Madina Davronova
+                    </td>
+
+                    <td>
+                        9-A
+                    </td>
+
+                    <td>
+                        <span
+                            class="status present attendance-status"
+                        >
+                            Kelgan
+                        </span>
+                    </td>
+
+                    <td>
+
+                        <button
+                            class="btn-present"
+                            onclick="setAttendance(this,'present')"
+                        >
+                            Kelgan
+                        </button>
+
+                        <button
+                            class="btn-late"
+                            onclick="setAttendance(this,'late')"
+                        >
+                            Kechikdi
+                        </button>
+
+                        <button
+                            class="btn-absent"
+                            onclick="setAttendance(this,'absent')"
+                        >
+                            Yo‘q
+                        </button>
+
+                    </td>
+
+                </tr>
+
+
+                <tr>
+
+                    <td>
+                        Sardor Abduqodirov
+                    </td>
+
+                    <td>
+                        9-A
+                    </td>
+
+                    <td>
+                        <span
+                            class="status late attendance-status"
+                        >
+                            Kechikdi
+                        </span>
+                    </td>
+
+                    <td>
+
+                        <button
+                            class="btn-present"
+                            onclick="setAttendance(this,'present')"
+                        >
+                            Kelgan
+                        </button>
+
+                        <button
+                            class="btn-late"
+                            onclick="setAttendance(this,'late')"
+                        >
+                            Kechikdi
+                        </button>
+
+                        <button
+                            class="btn-absent"
+                            onclick="setAttendance(this,'absent')"
+                        >
+                            Yo‘q
+                        </button>
+
+                    </td>
+
+                </tr>
+
+
+                <tr>
+
+                    <td>
+                        Zuhra Nosirova
+                    </td>
+
+                    <td>
+                        9-A
+                    </td>
+
+                    <td>
+                        <span
+                            class="status absent attendance-status"
+                        >
+                            Kelmagan
+                        </span>
+                    </td>
+
+                    <td>
+
+                        <button
+                            class="btn-present"
+                            onclick="setAttendance(this,'present')"
+                        >
+                            Kelgan
+                        </button>
+
+                        <button
+                            class="btn-late"
+                            onclick="setAttendance(this,'late')"
+                        >
+                            Kechikdi
+                        </button>
+
+                        <button
+                            class="btn-absent"
+                            onclick="setAttendance(this,'absent')"
+                        >
+                            Yo‘q
+                        </button>
+
+                    </td>
+
+                </tr>
+
+
+                <tr>
+
+                    <td>
+                        Javohir Mirzaev
+                    </td>
+
+                    <td>
+                        9-A
+                    </td>
+
+                    <td>
+                        <span
+                            class="status present attendance-status"
+                        >
+                            Kelgan
+                        </span>
+                    </td>
+
+                    <td>
+
+                        <button
+                            class="btn-present"
+                            onclick="setAttendance(this,'present')"
+                        >
+                            Kelgan
+                        </button>
+
+                        <button
+                            class="btn-late"
+                            onclick="setAttendance(this,'late')"
+                        >
+                            Kechikdi
+                        </button>
+
+                        <button
+                            class="btn-absent"
+                            onclick="setAttendance(this,'absent')"
+                        >
+                            Yo‘q
+                        </button>
+
+                    </td>
+
+                </tr>
+
+
+            </tbody>
+
+        </table>
+
+    </div>
+
+</section>
+
+
+
+<!-- =====================================================
+     SETTINGS
+===================================================== -->
+
+<section
+    class="page"
+    id="settings"
+>
+
+    <div class="page-header">
+
+        <div>
+
+            <span>PROEDU SETTINGS</span>
+
+            <h2>
+                Sozlamalar
+            </h2>
+
+            <p>
+                Platforma ishlashi va ko‘rinishini
+                boshqaring.
+            </p>
+
+        </div>
+
+    </div>
+
+
+    <div class="settings">
+
+
+        <div class="card">
+
+            <div class="panel-title">
+
+                <h3>
+                    Umumiy sozlamalar
+                </h3>
+
+            </div>
+
+
+            <div class="setting-row">
+
+                <div>
+
+                    <b>
+                        🔊 Tugma ovozlari
+                    </b>
+
+                    <small>
+                        Tugmalar bosilganda ovoz chiqadi.
+                    </small>
+
+                </div>
+
+
+                <label class="switch">
+
+                    <input
+                        type="checkbox"
+                        id="soundSetting"
+                        checked
+                    >
+
+                    <span></span>
+
+                </label>
+
+            </div>
+
+
+            <div class="setting-row">
+
+                <div>
+
+                    <b>
+                        🔔 Bildirishnomalar
+                    </b>
+
+                    <small>
+                        Yangi xabarlar haqida bildirish.
+                    </small>
+
+                </div>
+
+
+                <label class="switch">
+
+                    <input
+                        type="checkbox"
+                        checked
+                    >
+
+                    <span></span>
+
+                </label>
+
+            </div>
+
+
+            <div class="setting-row">
+
+                <div>
+
+                    <b>
+                        🌙 Dark Mode
+                    </b>
+
+                    <small>
+                        Qorong‘i interfeysni yoqish.
+                    </small>
+
+                </div>
+
+
+                <label class="switch">
+
+                    <input
+                        type="checkbox"
+                        id="darkMode"
+                    >
+
+                    <span></span>
+
+                </label>
+
+            </div>
+
+        </div>
+
+
+
+        <div class="card">
+
+            <div class="panel-title">
+
+                <h3>
+                    Muallif ma’lumotlari
+                </h3>
+
+            </div>
+
+
+            <div class="setting-row">
+
+                <div>
+
+                    <b>
+                        Muallif
+                    </b>
+
+                    <small>
+                        Abduraximova Karomatxon
+                    </small>
+
+                </div>
+
+            </div>
+
+
+            <div class="setting-row">
+
+                <div>
+
+                    <b>
+                        Platforma
+                    </b>
+
+                    <small>
+                        ProEdu Education Management System
+                    </small>
+
+                </div>
+
+            </div>
+
+
+            <div class="setting-row">
+
+                <div>
+
+                    <b>
+                        Tizim versiyasi
+                    </b>
+
+                    <small>
+                        ProEdu v1.0
+                    </small>
+
+                </div>
+
+            </div>
+
+        </div>
+
+    </div>
+
+</section>
+
+
+
+<footer>
+
+    © 2026 ProEdu Education Management System
+    • Muallif: Abduraximova Karomatxon
+
+</footer>
+
+
+</main>
+
+
+<div
+    class="toast"
+    id="toast"
+>
+    <span id="toastText"></span>
+</div>
+
+
+
+<script>
+
+/* =====================================================
+   PAGE NAVIGATION
+===================================================== */
+
+const navButtons =
+    document.querySelectorAll(".nav button");
+
+const pages =
+    document.querySelectorAll(".page");
+
+
+function openPage(pageName){
+
+    playSound();
+
+    pages.forEach(page => {
+        page.classList.remove("active");
+    });
+
+
+    navButtons.forEach(button => {
+        button.classList.remove("active");
+    });
+
+
+    const page =
+        document.getElementById(pageName);
+
+    if(page){
+        page.classList.add("active");
+    }
+
+
+    const activeButton =
+        document.querySelector(
+            `[data-page="${pageName}"]`
+        );
+
+    if(activeButton){
+        activeButton.classList.add("active");
+    }
+
+
+    window.scrollTo({
+        top:0,
+        behavior:"smooth"
+    });
+
+}
+
+
+navButtons.forEach(button => {
+
+    button.addEventListener(
+        "click",
+        () => {
+
+            openPage(
+                button.dataset.page
+            );
+
+        }
+    );
+
+});
+
+
+
+/* =====================================================
+   SOUND
+===================================================== */
+
+let soundEnabled = true;
+
+
+function playSound(){
+
+    if(!soundEnabled){
+        return;
+    }
+
+
+    const AudioContext =
+        window.AudioContext ||
+        window.webkitAudioContext;
+
+
+    if(!AudioContext){
+        return;
+    }
+
+
+    const audio =
+        new AudioContext();
+
+
+    const oscillator =
+        audio.createOscillator();
+
+
+    const gain =
+        audio.createGain();
+
+
+    oscillator.type = "sine";
+
+    oscillator.frequency.setValueAtTime(
+        600,
+        audio.currentTime
+    );
+
+    oscillator.frequency.exponentialRampToValueAtTime(
+        850,
+        audio.currentTime + 0.06
+    );
+
+
+    gain.gain.setValueAtTime(
+        0.04,
+        audio.currentTime
+    );
+
+    gain.gain.exponentialRampToValueAtTime(
+        0.001,
+        audio.currentTime + 0.08
+    );
+
+
+    oscillator.connect(gain);
+
+    gain.connect(audio.destination);
+
+
+    oscillator.start();
+
+    oscillator.stop(
+        audio.currentTime + 0.08
+    );
+
+}
+
+
+
+/* =====================================================
+   SOUND SETTING
+===================================================== */
+
+const soundSetting =
+    document.getElementById(
+        "soundSetting"
+    );
+
+
+const soundBtn =
+    document.getElementById(
+        "soundBtn"
+    );
+
+
+soundSetting.addEventListener(
+    "change",
+    function(){
+
+        soundEnabled =
+            this.checked;
+
+
+        soundBtn.textContent =
+            soundEnabled
+                ? "🔊"
+                : "🔇";
+
+    }
+);
+
+
+soundBtn.addEventListener(
+    "click",
+    function(){
+
+        soundEnabled =
+            !soundEnabled;
+
+
+        soundBtn.textContent =
+            soundEnabled
+                ? "🔊"
+                : "🔇";
+
+
+        if(soundEnabled){
+            playSound();
+        }
+
+    }
+);
+
+
+
+/* =====================================================
+   DARK MODE
+===================================================== */
+
+const darkMode =
+    document.getElementById(
+        "darkMode"
+    );
+
+
+darkMode.addEventListener(
+    "change",
+    function(){
+
+        document.body.classList.toggle(
+            "dark",
+            this.checked
+        );
+
+    }
+);
+
+
+
+/* =====================================================
+   TOAST
+===================================================== */
+
+function notifyUser(message){
+
+    playSound();
+
+
+    const toast =
+        document.getElementById(
+            "toast"
+        );
+
+
+    document.getElementById(
+        "toastText"
+    ).textContent =
+        "✓ " + message;
+
+
+    toast.classList.add("show");
+
+
+    setTimeout(
+        () => {
+
+            toast.classList.remove(
+                "show"
+            );
+
+        },
+        2200
+    );
+
+}
+
+
+
+/* =====================================================
+   ATTENDANCE
+===================================================== */
+
+function setAttendance(
+    button,
+    type
+){
+
+    playSound();
+
+
+    const row =
+        button.closest("tr");
+
+
+    const status =
+        row.querySelector(
+            ".attendance-status"
+        );
+
+
+    status.className =
+        "status attendance-status";
+
+
+    if(type === "present"){
+
+        status.classList.add(
+            "present"
+        );
+
+        status.textContent =
+            "Kelgan";
+
+    }
+
+
+    if(type === "late"){
+
+        status.classList.add(
+            "late"
+        );
+
+        status.textContent =
+            "Kechikdi";
+
+    }
+
+
+    if(type === "absent"){
+
+        status.classList.add(
+            "absent"
+        );
+
+        status.textContent =
+            "Kelmagan";
+
+    }
+
+
+    notifyUser(
+        "Davomat yangilandi"
+    );
+
+}
+
+
+
+function markAllPresent(){
+
+    document
+        .querySelectorAll(
+            ".attendance-status"
+        )
+        .forEach(status => {
+
+            status.className =
+                "status present attendance-status";
+
+            status.textContent =
+                "Kelgan";
+
+        });
+
+
+    notifyUser(
+        "Barcha o‘quvchilar kelgan deb belgilandi"
+    );
+
+}
+
+
+
+/* =====================================================
+   BOOK SEARCH
+===================================================== */
+
+const bookSearch =
+    document.getElementById(
+        "bookSearch"
+    );
+
+
+bookSearch.addEventListener(
+    "input",
+    function(){
+
+        const value =
+            this.value.toLowerCase();
+
+
+        document
+            .querySelectorAll(".book")
+            .forEach(book => {
+
+                const text =
+                    book.innerText.toLowerCase();
+
+
+                if(
+                    text.includes(value)
+                ){
+
+                    book.style.display =
+                        "block";
+
+                }else{
+
+                    book.style.display =
+                        "none";
+
+                }
+
+            });
+
+    }
+);
+
+
+
+/* =====================================================
+   CODE RUNNER
+===================================================== */
+
+function runCode(){
+
+    const code =
+        document
+            .getElementById(
+                "codeEditor"
+            )
+            .innerText;
+
+
+    try{
+
+        console.log(code);
+
+        notifyUser(
+            "Kod muvaffaqiyatli ishga tushirildi"
+        );
+
+    }catch(error){
+
+        notifyUser(
+            "Kodda xatolik mavjud"
+        );
+
+    }
+
+}
+
+
+
+/* =====================================================
+   LANGUAGE
+===================================================== */
+
+const langBtn =
+    document.getElementById(
+        "langBtn"
+    );
+
+
+const translations = {
+
+    uz:{
+        home:"Bosh sahifa",
+        programming:"Dasturlash kurslari",
+        library:"Raqamli kutubxona",
+        teacher:"O‘qituvchi paneli",
+        attendance:"Davomat tizimi",
+        settings:"Sozlamalar"
+    },
+
+    ru:{
+        home:"Главная",
+        programming:"Курсы программирования",
+        library:"Цифровая библиотека",
+        teacher:"Панель учителя",
+        attendance:"Система посещаемости",
+        settings:"Настройки"
+    },
+
+    en:{
+        home:"Home",
+        programming:"Programming Courses",
+        library:"Digital Library",
+        teacher:"Teacher Dashboard",
+        attendance:"Attendance System",
+        settings:"Settings"
+    }
+
+};
+
+
+let currentLanguage = "uz";
+
+
+langBtn.addEventListener(
+    "click",
+    function(){
+
+        playSound();
+
+
+        if(currentLanguage === "uz"){
+
+            currentLanguage = "ru";
+
+            langBtn.textContent =
+                "RU ▾";
+
+        }
+
+        else if(
+            currentLanguage === "ru"
+        ){
+
+            currentLanguage = "en";
+
+            langBtn.textContent =
+                "EN ▾";
+
+        }
+
+        else{
+
+            currentLanguage = "uz";
+
+            langBtn.textContent =
+                "UZ ▾";
+
+        }
+
+
+        changeLanguage();
+
+    }
+);
+
+
+function changeLanguage(){
+
+    document
+        .querySelectorAll("[data-i18n]")
+        .forEach(element => {
+
+            const key =
+                element.dataset.i18n;
+
+
+            element.textContent =
+                translations[
+                    currentLanguage
+                ][key];
+
+        });
+
+}
+
+
+/* =====================================================
+   SAVE SETTINGS
+===================================================== */
+
+soundSetting.addEventListener(
+    "change",
+    function(){
+
+        localStorage.setItem(
+            "proedu_sound",
+            this.checked
+        );
+
+    }
+);
+
+
+darkMode.addEventListener(
+    "change",
+    function(){
+
+        localStorage.setItem(
+            "proedu_dark",
+            this.checked
+        );
+
+    }
+);
+
+
+/* LOAD SETTINGS */
+
+const savedSound =
+    localStorage.getItem(
+        "proedu_sound"
+    );
+
+
+if(savedSound !== null){
+
+    soundEnabled =
+        savedSound === "true";
+
+    soundSetting.checked =
+        soundEnabled;
+
+    soundBtn.textContent =
+        soundEnabled
+            ? "🔊"
+            : "🔇";
+
+}
+
+
+const savedDark =
+    localStorage.getItem(
+        "proedu_dark"
+    );
+
+
+if(savedDark === "true"){
+
+    darkMode.checked = true;
+
+    document.body.classList.add(
+        "dark"
+    );
+
+}
+
+
+
+/* =====================================================
+   INITIALIZATION
+===================================================== */
+
+console.log(
+    "ProEdu Education Management System ishga tushdi."
+);
+
+console.log(
+    "Muallif: Abduraximova Karomatxon"
+);
+
+</script>
+
+</body>
+</html>
